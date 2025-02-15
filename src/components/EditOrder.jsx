@@ -2,19 +2,34 @@ import { useState } from "react";
 
 export default function EditOrder({ order, editOrder, close }) {
   const [editedOrder, setEditedOrder] = useState(order);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setEditedOrder({ ...editedOrder, [e.target.name]: e.target.value });
   };
 
   const handleSave = () => {
-    editOrder(editedOrder);
+    if (!editedOrder.name || !editedOrder.product || !editedOrder.price) {
+      setError("All fields are required!");
+      return;
+    }
+
+    editOrder({
+      ...editedOrder,
+      price: parseFloat(editedOrder.price), // Convert price to number
+      lastUpdate: new Date().toLocaleString(),
+    });
+
+    setError(""); // Clear error after saving
+    close(); // Close modal after saving
   };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-lg font-semibold mb-4">Edit Order</h2>
+
+        {error && <p className="text-red-500 mb-2">{error}</p>}
 
         <label className="block mb-2">
           Name:
@@ -41,7 +56,7 @@ export default function EditOrder({ order, editOrder, close }) {
         <label className="block mb-2">
           Price:
           <input
-            type="text"
+            type="number"
             name="price"
             value={editedOrder.price}
             onChange={handleChange}
