@@ -3,8 +3,8 @@ import { Home, ClipboardList, Settings } from "lucide-react";
 
 const navItems = [
   { name: "Dashboard", icon: Home },
-  { name: "Orders", icon: ClipboardList },
-  { name: "Settings", icon: Settings },
+  { name: "COMING SOON", icon: ClipboardList },
+  { name: "COMING SOON", icon: Settings },
 ];
 
 const Sidebar = ({ setPage }) => {
