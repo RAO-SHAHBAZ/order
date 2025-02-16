@@ -34,7 +34,11 @@ export default function OrderTable({ orders, deleteOrder, setEditingOrder }) {
                   Edit
                 </button>
                 <button
-                  onClick={() => deleteOrder(order.id)}
+                  onClick={() => {
+                    if (window.confirm("Are you sure you want to delete this order?")) {
+                      deleteOrder(order.id);
+                    }
+                  }}
                   className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                 >
                   Delete

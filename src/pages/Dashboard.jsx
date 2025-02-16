@@ -33,18 +33,16 @@ export default function Dashboard() {
     fetchOrders();
   }, []);
 
-  // Add Order to Firestore
-  const addOrder = async (newOrder) => {
-    try {
-      const docRef = await addDoc(ordersCollection, {
-        ...newOrder,
-        lastUpdate: new Date().toLocaleString(),
-      });
-      setOrders((prevOrders) => [...prevOrders, { id: docRef.id, ...newOrder }]);
-    } catch (error) {
-      console.error("Error adding order:", error);
-    }
-  };
+// Add Order to Firestore
+const addOrder = async (newOrder) => {
+  const docRef = await addDoc(ordersCollection, {
+    ...newOrder,
+    lastUpdate: new Date().toLocaleString(),
+  });
+
+  // Add the new order at the beginning instead of the end
+  setOrders([{ id: docRef.id, ...newOrder }, ...orders]);
+};
 
   // Delete Order from Firestore
   const deleteOrder = async (orderId) => {
